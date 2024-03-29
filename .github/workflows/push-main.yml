@@ -3,7 +3,14 @@ name: Build and Test and Publish (main)
 on:
   push:
     branches:
-    - main
+    - DEV
+
+# We need some permissions to publish to Github Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 
 jobs:
   build:
@@ -23,9 +30,9 @@ jobs:
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
-        personal_token: ${{ secrets.GITHUB_TOKEN }}
+        #personal_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./output
         publish_branch: gh-pages
         force_orphan: true
-    - name: Publish NuGets (if main version changed)
-      run: dotnet nuget push "artifacts/*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.FSHARP_FORMATTING_TOKEN_2020 }} --skip-duplicate
+#    - name: Publish NuGets (if main version changed)
+#      run: dotnet nuget push "artifacts/*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.FSHARP_FORMATTING_TOKEN_2020 }} --skip-duplicate
